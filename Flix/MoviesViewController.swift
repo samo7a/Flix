@@ -9,13 +9,14 @@ import UIKit
 import AlamofireImage
 
 class MoviesViewController: UIViewController , UITableViewDataSource, UITableViewDelegate{
-  
+    
     var movies = [[String:Any]]()
     @IBOutlet weak var TableView: UITableView!
     override func viewDidLoad() {
         super.viewDidLoad()
         TableView.dataSource = self
         TableView.delegate = self
+        
         // Do any additional setup after loading the view.
         let url = URL(string: "https://api.themoviedb.org/3/movie/now_playing?api_key=a07e22bc18f5cb106bfe4cc1f83ad8ed")!
         let request = URLRequest(url: url, cachePolicy: .reloadIgnoringLocalCacheData, timeoutInterval: 10)
@@ -58,14 +59,26 @@ class MoviesViewController: UIViewController , UITableViewDataSource, UITableVie
         
         return cell
     }
-    /*
-    // MARK: - Navigation
+    
+     //MARK: - Navigation
 
-    // In a storyboard-based application, you will often want to do a little preparation before navigation
+     //In a storyboard-based application, you will often want to do a little preparation before navigation
+    //sender is the cell
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-        // Get the new view controller using segue.destination.
-        // Pass the selected object to the new view controller.
+//         Get the new view controller using segue.destination.
+//         Pass the selected object to the new view controller.
+//        print ("loading up the details screen")
+        
+        //find the selected movie
+        let cell = sender as! UITableViewCell
+        let indexPath = TableView.indexPath(for: cell)!
+        let movie = movies[indexPath.row]
+        //pass the selected movie to the details view controller
+        let detatilsViewController = segue.destination as! MovieDetailsViewController
+        detatilsViewController.movie = movie
+        
+        TableView.deselectRow(at: indexPath, animated: true)
     }
-    */
+    
 
 }
